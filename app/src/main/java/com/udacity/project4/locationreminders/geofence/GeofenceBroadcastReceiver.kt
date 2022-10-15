@@ -3,6 +3,8 @@ package com.udacity.project4.locationreminders.geofence
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
+import com.udacity.project4.Constants
 
 /**
  * Triggered by the Geofence.  Since we can have many Geofences at once, we pull the request
@@ -14,10 +16,19 @@ import android.content.Intent
  *
  */
 
+
+/*
+modify manifest.xml to add the GeofenceBroadcastReceiver tag to register the BroadCastReceiver:
+10- The BroadcastReceiver listens for Geofence transitions and provides a notification ,
+ when a device enters a particular geofence area. through GeofenceTransitionsJobIntentService.enqueueWork(context, intent)
+ */
 class GeofenceBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
 
 //TODO: implement the onReceive method to receive the geofencing events at the background
-
+        if (intent.action == Constants.ACTION_GEOFENCE_EVENT) {
+            Log.i("GeofenceReceiver", "Geofence event received")
+            GeofenceTransitionsJobIntentService.enqueueWork(context, intent)
+        }
     }
 }
